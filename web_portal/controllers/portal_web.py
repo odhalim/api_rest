@@ -86,6 +86,6 @@ class PortalAccount(portal.CustomerPortal):
         return request.render("web_portal.portal_my_employee_create", vals)
 
     def new_method_to_make_pull_request(self):
-        print("Test a conflic merge")
-        if self.account:
-            print("second a conflic merge")
+        print("corriger le conflic")
+        for a in self.order_line:
+            pass
