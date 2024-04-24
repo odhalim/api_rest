@@ -87,3 +87,5 @@ class PortalAccount(portal.CustomerPortal):
 
     def new_method_to_make_pull_request(self):
         print("Test a conflic merge")
+        if self.account:
+            print("second a conflic merge")
