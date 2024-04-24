@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Create a menu in portal web-->
+    <template id="portal_hr_employee_2" name="E2" customize_show="True" inherit_id="portal.portal_my_home"
+              priority="220">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+             <!-- new menu to create employee -->
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">New employee</t>
+                <t t-set="url" t-value="'/new/employee'"/>
+            </t>
+
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">employee</t>
+                <t t-set="url" t-value="'/my/employee'"/>
+                <t t-set="placeholder_count" t-value="'hr_employee'"/>
+            </t>
+
+        </xpath>
+    </template>
+
+    <!--Create a submenu in the portal web-->
+    <template id="portal_my_home_menu_employee" name="Portal layout : employee menu entries"
+              inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'employee_lis_view'" class="breadcrumb-item">Employee</li>
+            <li t-if="page_name == 'portal_my_employee_form_view'" class="breadcrumb-item">
+                <a t-attf-href="/my/employee">Employee</a>
+                /
+                <t t-out="employee_id.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!--Add template portal list view for the employee -->
+    <template id="portal_employee" name="Employee">
+        <h1>Employee</h1>
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Employee</t>
+            </t>
+            <t t-call="portal.portal_table">
+                <thread>
+                    <tr>
+                        <th>Picture</th>
+                        <th>name</th>
+                        <th>department</th>
+                        <th>job title</th>
+                        <th>work email</th>
+                        <th>work location</th>
+                    </tr>
+                </thread>
+                <tbody>
+                    <t t-foreach="employee_ids" t-as="employee">
+                        <tr>
+                            <td>
+                                <t t-if="employee.image_1920">
+                                    <img t-attf-src="data:image/png;base64,{{employee.image_1920}}"
+                                         alt="avatar"
+                                         class="rounded-circle img-fluid" style="width: 50px;"/>
+                                </t>
+                                <t t-else="">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                         alt="avatar"
+                                         class="rounded-circle img-fluid" style="width: 50px;"/>
+                                </t>
+                            </td>
+                            <td>
+                                <a t-att-href="'/my/employee/' + str(employee.id)">
+                                    <t t-out="employee.name"/>
+                                </a>
+                            </td>
+                            <td>
+                                <t t-out="employee.department_id.name"/>
+                            </td>
+                            <td>
+                                <t t-out="employee.job_title"/>
+                            </td>
+                            <td>
+                                <t t-out="employee.work_email"/>
+                            </td>
+                            <td>
+                                <t t-out="employee.address_id"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <!--Create the form view for the employee  -->
+    <template id="portal_my_employee_form_view" name="Employee Form" priority="220" inherit_id="portal.portal_sidebar">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-if="page_name == 'portal_my_employee_form_view'">
+                <section style="background-color: #eee;">
+                    <div class="container py-5">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <t t-if="employee_id.image_1920">
+                                            <img t-attf-src="data:image/png;base64,{{employee_id.image_1920}}"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid" style="width: 150px;"/>
+                                        </t>
+
+                                        <h5 class="my-3">
+                                            <t t-out="employee_id.name"/>
+                                        </h5>
+                                        <p class="text-muted mb-1">
+                                            <t t-out="employee_id.job_title"/>
+                                        </p>
+                                        <p class="text-muted mb-4">
+                                            <t t-out="employee_id.department_id.name"/>
+                                        </p>
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <a t-attf-href="/my/employee/print/{{employee_id}}" class="fa fa-download"
+                                               style="font-size: 20px;">Download
+                                            </a>
+                                            <!--                                            <button type="button" class="btn btn-primary">Follow</button>-->
+                                            <!--                                            <button type="button" class="btn btn-outline-primary ms-1">Message</button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 mb-lg-0">
+                                    <div class="card-body p-0">
+                                        <ul class="list-group list-group-flush rounded-3">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                <i class="fas fa-globe fa-lg text-warning"></i>
+                                                <p class="mb-0">https://mdbootstrap.com</p>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+                                                <p class="mb-0">mdbootstrap</p>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                                                <p class="mb-0">@mdbootstrap</p>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                                                <p class="mb-0">mdbootstrap</p>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                                                <p class="mb-0">mdbootstrap</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Full Name</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee_id.name"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee_id.work_email"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Phone</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee_id.work_phone"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Mobile</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee_id.mobile_phone"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Address</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <t t-out="employee_id.address_home_id.street"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- add the Chatter-->
+                    <div>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="employee_id"/>
+                        </t>
+                    </div>
+                </section>
+            </t>
+        </xpath>
+    </template>
+
+    <!--    Create new form view to create new employee-->
+    <template id="portal_my_employee_create" >
+        <div class="row">
+            <form>
+                name : cr<input type="char" name="name"  id="name"/> <br/>
+            </form>
+        </div>
+    </template>
+
+</odoo>
