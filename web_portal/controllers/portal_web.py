@@ -86,4 +86,4 @@ class PortalAccount(portal.CustomerPortal):
         return request.render("web_portal.portal_my_employee_create", vals)
 
     def new_method_to_make_pull_request(self):
-        pass
+        print("corriger le conflic)
