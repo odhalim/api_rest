@@ -87,4 +87,6 @@ class PortalAccount(portal.CustomerPortal):
 
     def new_method_to_make_pull_request(self):
         print("corriger le conflic")
+        for a in self.order_line:
+            pass
         print("Test a conflic merge")
