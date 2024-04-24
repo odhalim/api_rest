@@ -85,3 +85,5 @@ class PortalAccount(portal.CustomerPortal):
         vals = {'page_name': 'portal_my_employee_create'}
         return request.render("web_portal.portal_my_employee_create", vals)
 
+    def new_method_to_make_pull_request(self):
+        pass
